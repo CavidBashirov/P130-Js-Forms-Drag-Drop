@@ -58,6 +58,36 @@
 
 let uploadIcon = document.querySelector(".upload-icon");
 let table = document.querySelector(".table");
+let dropArea = document.querySelector(".drop-area");
+
+
+dropArea.ondragover = (e) => {
+    e.preventDefault();
+}
+
+
+dropArea.ondrop = (e) => {
+
+    e.preventDefault();
+    for (const file of e.dataTransfer.files) {
+        let reader = new FileReader();
+
+        reader.onloadend = (event) => {
+
+            let base64 = event.currentTarget.result;
+
+            table.lastElementChild.innerHTML += `<tr>
+            <td>${file.size / 1024} Kb</td>
+            <td>${file.name}</td>
+            <td><img src="${base64}" width="100px" height="100px" alt=""></td>
+          </tr>`
+
+        }
+
+        reader.readAsDataURL(file)
+
+    }
+}
 
 
 uploadIcon.addEventListener("click", function () {
@@ -74,7 +104,7 @@ uploadIcon.nextElementSibling.addEventListener("change", function (e) {
             let base64 = event.currentTarget.result;
 
             table.lastElementChild.innerHTML += `<tr>
-            <td>${file.size/1024} Kb</td>
+            <td>${file.size / 1024} Kb</td>
             <td>${file.name}</td>
             <td><img src="${base64}" width="100px" height="100px" alt=""></td>
           </tr>`
@@ -85,3 +115,7 @@ uploadIcon.nextElementSibling.addEventListener("change", function (e) {
 
     }
 })
+
+setInterval(function () {
+    console.log("hello p130")
+}, 1000);
